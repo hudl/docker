@@ -20,7 +20,8 @@ RUN curl -L http://downloads.sourceforge.net/project/opencore-amr/opencore-amr/o
 	cd opencore-amr-0.1.3 && \
 	./configure && \
 	make && make install && \
-	ldconfig \.compute-1.amazonaws.com	cd .. && \
+	ldconfig && \
+	cd .. && \
 	rm -rf opencore-amr-0.1.3
 	
 RUN	curl -L http://downloads.sourceforge.net/project/opencore-amr/fdk-aac/fdk-aac-0.1.3.tar.gz | tar zxf - && \
