@@ -57,7 +57,7 @@ RUN curl -L https://webm.googlecode.com/files/libvpx-v1.3.0.tar.bz2 | tar xjf - 
 	rm -rf libvpx-v1.3.0
 	
 RUN	curl -L http://ffmpeg.org/releases/ffmpeg-2.7.2.tar.bz2 | tar xjf - && \
-	cd ffmpeg && \
+	cd ffmpeg-2.7.2 && \
 	./configure --enable-avfilter --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb \
 		--enable-libvpx --enable-libfdk_aac --enable-libmp3lame --enable-libtheora --enable-libvorbis \
 		--enable-libx264 --enable-libxvid --enable-gpl --enable-postproc --enable-nonfree --enable-shared && \
@@ -68,7 +68,7 @@ RUN	curl -L http://ffmpeg.org/releases/ffmpeg-2.7.2.tar.bz2 | tar xjf - && \
 	cp qt-faststart /usr/local/bin && \
 	ldconfig && \
 	cd ../.. && \
-	rm -rf ffmpeg 
+	rm -rf ffmpeg-2.7.2 
 
 RUN apt-get install -y perl-ExtUtils-MakeMaker 
 
