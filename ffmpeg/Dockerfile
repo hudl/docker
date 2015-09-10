@@ -8,8 +8,7 @@ RUN apt-get -y install git subversion yasm unzip mediainfo ntp ruby autoconf aut
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 # FFMPEG package deps
-RUN apt-get -y install libmp3lame-dev libxvidcore-dev libxml2-utils libass-dev libgpac-dev libtheora-dev libtool libvorbis-dev 
-
+RUN apt-get -y install libmp3lame-dev libxvidcore-dev libxml2-utils libass-dev libgpac-dev libtheora-dev libtool libvorbis-dev
 RUN apt-get install -y bzip2 make gcc automake autoconf libtool yasm nasm git
 
 RUN	export LD_LIBRARY_PATH=/usr/local/lib/ && \
@@ -55,7 +54,7 @@ RUN curl -L https://webm.googlecode.com/files/libvpx-v1.3.0.tar.bz2 | tar xjf - 
 	ldconfig && \
 	cd .. && \
 	rm -rf libvpx-v1.3.0
-	
+
 RUN	curl -L http://ffmpeg.org/releases/ffmpeg-2.7.2.tar.bz2 | tar xjf - && \
 	cd ffmpeg-2.7.2 && \
 	./configure --enable-avfilter --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb \
@@ -69,8 +68,6 @@ RUN	curl -L http://ffmpeg.org/releases/ffmpeg-2.7.2.tar.bz2 | tar xjf - && \
 	ldconfig && \
 	cd ../.. && \
 	rm -rf ffmpeg-2.7.2 
-
-RUN apt-get install -y perl-ExtUtils-MakeMaker 
 
 RUN	curl -L http://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-9.84.tar.gz | tar zxf - && \
 	cd Image-ExifTool-9.84 && \
