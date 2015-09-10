@@ -2,7 +2,7 @@ FROM hudl/opencv
 
 MAINTAINER Ryan Hotovy <ryan.hotovy@hudl.com>
 
-RUN apt-get install gdb
+RUN apt-get -y install gdb
 
 ### Docker suggested way of setting up SSH server
 ### You'll want to add your own key in and later
