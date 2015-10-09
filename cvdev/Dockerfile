@@ -2,7 +2,8 @@ FROM hudl/opencv
 
 MAINTAINER Ryan Hotovy <ryan.hotovy@hudl.com>
 
-RUN apt-get -y install gdb
+RUN apt-get install -y gdb
+RUN apt-get update && apt-get install -y libboost-all-dev --fix-missing
 
 ### Docker suggested way of setting up SSH server
 ### You'll want to add your own key in and later
