@@ -57,8 +57,8 @@ RUN curl -L https://webm.googlecode.com/files/libvpx-v1.3.0.tar.bz2 | tar xjf - 
 
 RUN	curl -L http://ffmpeg.org/releases/ffmpeg-2.7.2.tar.bz2 | tar xjf - && \
 	cd ffmpeg-2.7.2 && \
-	./configure --enable-avfilter --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb \
-		--enable-libvpx --enable-libfdk_aac --enable-libmp3lame --enable-libtheora --enable-libvorbis \
+	./configure --extra-libs="-ldl" --enable-avfilter --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb \
+		--enable-libvpx --enable-libfdk-aac --enable-libmp3lame --enable-libtheora --enable-libvorbis \
 		--enable-libx264 --enable-libxvid --enable-gpl --enable-postproc --enable-nonfree --enable-shared && \
 	make && make install && \
 	ldconfig && \
