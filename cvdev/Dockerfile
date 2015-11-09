@@ -4,6 +4,11 @@ MAINTAINER Ryan Hotovy <ryan.hotovy@hudl.com>
 
 RUN apt-get -y install gdb
 
+# Python dev
+COPY ./requirements.txt /
+RUN pip install -r /requirements.txt
+RUN rm /requirements.txt
+
 ### Docker suggested way of setting up SSH server
 ### You'll want to add your own key in and later
 ### disable root login through password
@@ -19,5 +24,10 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+# Configure jupyter
+WORKDIR /root
+RUN mkdir .jupyter
+COPY ./jupyter_notebook_config.py /root/.jupyter/
+
+EXPOSE 22 8888
+CMD /usr/sbin/sshd -D & ipython notebook
