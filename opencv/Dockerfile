@@ -20,12 +20,12 @@ RUN rm /root/requirements.txt
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv.git
 WORKDIR /opencv
-RUN git checkout 3.0.0
+RUN git checkout tags/3.0.0
 
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv_contrib.git
 WORKDIR /opencv_contrib
-RUN git checkout 3.0.0
+RUN git checkout tags/3.0.0
 
 # Build OpenCV
 WORKDIR /opencv
