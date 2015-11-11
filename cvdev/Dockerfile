@@ -9,6 +9,9 @@ COPY ./requirements.txt /
 RUN pip install -r /requirements.txt
 RUN rm /requirements.txt
 
+# Install HDF5
+RUN apt-get install -y libhdf5-serial-dev --fix-missing
+
 ### Docker suggested way of setting up SSH server
 ### You'll want to add your own key in and later
 ### disable root login through password

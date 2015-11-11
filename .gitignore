@@ -1,2 +1,3 @@
 # Emacs files
 *~
+*.DS_Store
