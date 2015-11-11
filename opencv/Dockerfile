@@ -36,6 +36,15 @@ RUN cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules . && \
     rm -rf opencv && \
     rm -rf opencv_contrib
 
+RUN cd  / && \
+    curl -L http://gnu.mirrorcatalogs.com/gsl/gsl-1.16.tar.gz | tar zxf - && \
+    cd gsl-1.16 && \
+    ./configure && \
+    make && make install && \
+    ldconfig && \
+    cd .. && \
+    rm -rf gsl-1.16
+
 # Install Boost
 RUN apt-get update
 RUN apt-get install -y libboost-all-dev --fix-missing
