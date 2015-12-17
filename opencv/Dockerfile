@@ -8,8 +8,11 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     libatlas-base-dev \
     python \
-    python-dev \
-    python-pip
+    python-dev
+
+# pip
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py && rm get-pip.py
 
 # Python stack
 COPY ./requirements.txt /root/
