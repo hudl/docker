@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
     libatlas-base-dev \
     python \
     python-dev \
-    python-pip
+    wget
+
+# pip
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py && rm get-pip.py
 
 # Python stack
 COPY ./requirements.txt /root/
@@ -51,7 +55,6 @@ RUN apt-get install -y libboost-all-dev --fix-missing
 RUN echo LC_ALL=C >> /etc/environment
 
 # Install VLFeat
-RUN apt-get install -y wget
 RUN wget http://www.vlfeat.org/download/vlfeat-0.9.20-bin.tar.gz
 RUN tar zxvf vlfeat-0.9.20-bin.tar.gz
 Run rm vlfeat-0.9.20-bin.tar.gz
