@@ -24,12 +24,12 @@ RUN rm /root/requirements.txt
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv.git
 WORKDIR /opencv
-RUN git checkout tags/3.0.0
+RUN git checkout tags/3.1.0
 
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv_contrib.git
 WORKDIR /opencv_contrib
-RUN git checkout tags/3.0.0
+RUN git checkout tags/3.1.0
 
 # Build OpenCV
 WORKDIR /opencv
@@ -40,22 +40,22 @@ RUN cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules . && \
     rm -rf opencv && \
     rm -rf opencv_contrib
 
-RUN cd  / && \
-    curl -L http://gnu.mirrorcatalogs.com/gsl/gsl-1.16.tar.gz | tar zxf - && \
-    cd gsl-1.16 && \
+WORKDIR /
+RUN curl -L ftp://ftp.gnu.org/gnu/gsl/gsl-2.1.tar.gz | tar zxf - && \
+    cd gsl-2.1 && \
     ./configure && \
     make && make install && \
     ldconfig && \
     cd .. && \
-    rm -rf gsl-1.16
+    rm -rf gsl-2.1
 
 # Install Boost
 RUN apt-get update
 RUN apt-get install -y libboost-all-dev --fix-missing
-RUN echo LC_ALL=C >> /etc/environment
+ENV LC_ALL=C
 
 # Install VLFeat
 RUN wget http://www.vlfeat.org/download/vlfeat-0.9.20-bin.tar.gz
 RUN tar zxvf vlfeat-0.9.20-bin.tar.gz
-Run rm vlfeat-0.9.20-bin.tar.gz
-RUN echo VLFEAT_DIR=/vlfeat-0.9.20 >> /etc/environment
+RUN rm vlfeat-0.9.20-bin.tar.gz
+ENV VLFEAT_DIR=/vlfeat-0.9.20
