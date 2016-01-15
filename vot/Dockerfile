@@ -26,7 +26,7 @@ RUN echo "addpath ('/vot-toolkit');" >> ~/.octaverc
 
 # Setup test workspaces & downloads TraX precompiled files
 WORKDIR /vot-2013-workspace
-RUN (echo "toolkit_path;set_global_variable('native_download',false);workspace_create"; echo 2; echo MSS_Tracker) | octave
+RUN (echo "toolkit_path;set_global_variable('native_download',false);workspace_create"; echo 2; echo Algorithm) | octave
 WORKDIR /vot-2013-workspace/sequences
 RUN wget http://box.vicos.si/vot/vot2013.zip && \
     unzip vot2013 && \
@@ -40,7 +40,7 @@ RUN touch vot2013.txt && \
     (echo "PLT";  echo "FoT"; echo "EDFT"; echo "LGTpp"; echo "LT-FLO") >>  vot2013.txt
 
 WORKDIR /vot-2014-workspace
-RUN (echo "toolkit_path;set_global_variable('native_download',false);workspace_create"; echo 4; echo MSS_Tracker) | octave
+RUN (echo "toolkit_path;set_global_variable('native_download',false);workspace_create"; echo 4; echo Algorithm) | octave
 WORKDIR /vot-2014-workspace/sequences
 RUN wget http://box.vicos.si/vot/vot2014.zip && \
     unzip vot2014 && \
@@ -54,7 +54,7 @@ RUN touch vot2014.txt && \
     (echo "DSST";  echo "SAMF"; echo "KCF"; echo "DGT"; echo "PLT_14"; echo "PLT_13") >>  vot2014.txt
 
 WORKDIR /vot-2015-workspace
-RUN (echo "toolkit_path;set_global_variable('native_download',false);workspace_create"; echo 5; echo MSS_Tracker) | octave
+RUN (echo "toolkit_path;set_global_variable('native_download',false);workspace_create"; echo 5; echo Algorithm) | octave
 WORKDIR /vot-2015-workspace/sequences
 RUN wget http://box.vicos.si/vot/vot2015.zip && \
     unzip vot2015 && \
