@@ -35,10 +35,7 @@ RUN git checkout tags/3.1.0
 WORKDIR /opencv
 RUN cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules . && \
     make && make install && \
-    ldconfig && \
-    cd .. && \
-    rm -rf opencv && \
-    rm -rf opencv_contrib
+    ldconfig
 
 WORKDIR /
 RUN curl -L ftp://ftp.gnu.org/gnu/gsl/gsl-2.1.tar.gz | tar zxf - && \
