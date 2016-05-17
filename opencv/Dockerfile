@@ -35,10 +35,7 @@ RUN git checkout tags/3.1.0
 WORKDIR /opencv
 RUN cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules . && \
     make && make install && \
-    ldconfig && \
-    cd .. && \
-    rm -rf opencv && \
-    rm -rf opencv_contrib
+    ldconfig
 
 WORKDIR /
 RUN curl -L ftp://ftp.gnu.org/gnu/gsl/gsl-2.1.tar.gz | tar zxf - && \
@@ -59,3 +56,9 @@ RUN wget http://www.vlfeat.org/download/vlfeat-0.9.20-bin.tar.gz
 RUN tar zxvf vlfeat-0.9.20-bin.tar.gz
 RUN rm vlfeat-0.9.20-bin.tar.gz
 ENV VLFEAT_DIR=/vlfeat-0.9.20
+
+# Install Eigen3
+RUN apt-get install -y libeigen3-dev
+
+# Install HDF5
+RUN apt-get install -y libhdf5-serial-dev --fix-missing
