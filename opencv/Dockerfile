@@ -11,15 +11,6 @@ RUN apt-get update && apt-get install -y \
     python-dev \
     wget
 
-# pip
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN python get-pip.py && rm get-pip.py
-
-# Python stack
-COPY ./requirements.txt /root/
-RUN pip install -r /root/requirements.txt
-RUN rm /root/requirements.txt
-
 # Download OpenCV and extra modules
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv.git
@@ -59,3 +50,20 @@ RUN wget http://www.vlfeat.org/download/vlfeat-0.9.20-bin.tar.gz
 RUN tar zxvf vlfeat-0.9.20-bin.tar.gz
 RUN rm vlfeat-0.9.20-bin.tar.gz
 ENV VLFEAT_DIR=/vlfeat-0.9.20
+
+# Install Eigen3
+RUN apt-get install -y libeigen3-dev
+
+# Install HDF5
+RUN apt-get install -y libhdf5-serial-dev --fix-missing
+
+# Install pip
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py && rm get-pip.py
+RUN pip install --upgrade pip
+
+# Python stack
+COPY ./requirements.txt /root/
+RUN pip install -r /root/requirements.txt
+RUN rm /root/requirements.txt
+
