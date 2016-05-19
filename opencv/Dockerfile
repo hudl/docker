@@ -11,15 +11,6 @@ RUN apt-get update && apt-get install -y \
     python-dev \
     wget
 
-# pip
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN python get-pip.py && rm get-pip.py
-
-# Python stack
-COPY ./requirements.txt /root/
-RUN pip install -r /root/requirements.txt
-RUN rm /root/requirements.txt
-
 # Download OpenCV and extra modules
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv.git
@@ -35,7 +26,10 @@ RUN git checkout tags/3.1.0
 WORKDIR /opencv
 RUN cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules . && \
     make && make install && \
-    ldconfig
+    ldconfig && \
+    cd .. && \
+    rm -rf opencv &&\
+    rm -rf opencv_contrib
 
 WORKDIR /
 RUN curl -L ftp://ftp.gnu.org/gnu/gsl/gsl-2.1.tar.gz | tar zxf - && \
@@ -62,3 +56,14 @@ RUN apt-get install -y libeigen3-dev
 
 # Install HDF5
 RUN apt-get install -y libhdf5-serial-dev --fix-missing
+
+# Install pip
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py && rm get-pip.py
+RUN pip install --upgrade pip
+
+# Python stack
+COPY ./requirements.txt /root/
+RUN pip install -r /root/requirements.txt
+RUN rm /root/requirements.txt
+
