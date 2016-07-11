@@ -1,15 +1,17 @@
-FROM kaixhin/cudnn:latest
+FROM nvidia/cuda:cudnn-ubuntu14.04
 MAINTAINER Nathan DeMaria <nathan.demaria@hudl.com>
 
 ENV CUDA_ROOT /usr/local/cuda/bin
 
-RUN wget --quiet https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda2-2.5.0-Linux-x86_64.sh && \
-    /bin/bash /Anaconda2-2.5.0-Linux-x86_64.sh -b -p /opt/conda && \
-    rm /Anaconda2-2.5.0-Linux-x86_64.sh
+RUN apt-get update && apt-get install wget -y
+
+RUN wget --quiet http://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh -O install_anaconda.sh && \
+    /bin/bash install_anaconda.sh -b -p /opt/conda && \
+    rm install_anaconda.sh
 
 ENV PATH /opt/conda/bin:$PATH
 
-RUN apt-get install git python-pip python-qt4 vim -y
+RUN apt-get update && apt-get install git python-pip python-qt4 vim -y
 
 RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
 
