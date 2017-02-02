@@ -1,69 +1,59 @@
-FROM hudl/ffmpeg
-
+FROM hudl/ffmpeg:latest
 MAINTAINER Ryan Versaw <ryan.versaw@hudl.com>
 
-# Dependencies
 RUN apt-get update && apt-get install -y \
     cmake \
     gfortran \
     libatlas-base-dev \
-    python \
-    python-dev \
     wget
 
-# Download OpenCV and extra modules
+RUN apt-get install software-properties-common -y && \
+    add-apt-repository ppa:george-edison55/cmake-3.x && \
+    apt-get update && \
+    apt-get upgrade cmake -y
+
+RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O install_miniconda.sh && \
+    /bin/bash install_miniconda.sh -b -p /opt/conda && \
+    rm install_miniconda.sh
+ENV PATH /opt/conda/bin:$PATH
+
+RUN pip install --upgrade pip
+RUN pip install Cython==0.24
+RUN pip install --upgrade --ignore-installed https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
+
+RUN conda install numpy -y
+
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv.git
 WORKDIR /opencv
-RUN git checkout tags/3.1.0
+RUN git checkout tags/3.2.0
 
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv_contrib.git
 WORKDIR /opencv_contrib
-RUN git checkout tags/3.1.0
+RUN git checkout tags/3.2.0
 
-# Build OpenCV
 WORKDIR /opencv
-RUN cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules . && \
-    make && make install && \
+RUN cmake -D CMAKE_BUILD_TYPE=Release \
+    -D CMAKE_INSTALL_PREFIX=/opt/opencv \
+    -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
+    -D BUILD_opencv_python3=True \
+    -D OPENCV_FORCE_PYTHON_LIBS=True \
+    -D PYTHON3_INCLUDE_DIR=/opt/conda/include/python3.5m \
+    -D PYTHON3_LIBRARY=/opt/conda/lib/libpython3.5m.so \
+    -D PYTHON3_EXECUTABLE=/opt/conda/bin/python3.5 \
+    -D PYTHON3_NUMPY_INCLUDE_DIRS=/opt/conda/pkgs/numpy-1.11.3-py35_0/lib/python3.5/site-packages/numpy/core/include \
+    -D PYTHON3_PACKAGES_PATH=/opt/conda/lib/python3.5/site-packages \
+    -D BUILD_EXAMPLES=False \
+    -D INSTALL_PYTHON_EXAMPLES=False \
+    -D INSTALL_C_EXAMPLES=False \
+    -D BUILD_DOCS=False \
+    -D BUILD_TESTS=False \
+    -D BUILD_PERF_TESTS=False \
+    .
+
+RUN make -j8 && make install && \
     ldconfig && \
     cd .. && \
     rm -rf opencv && \
     rm -rf opencv_contrib
-
-WORKDIR /
-RUN curl -L ftp://ftp.gnu.org/gnu/gsl/gsl-2.1.tar.gz | tar zxf - && \
-    cd gsl-2.1 && \
-    ./configure && \
-    make && make install && \
-    ldconfig && \
-    cd .. && \
-    rm -rf gsl-2.1
-
-# Install Boost
-RUN apt-get update
-RUN apt-get install -y libboost-all-dev --fix-missing
-ENV LC_ALL=C
-
-# Install VLFeat
-RUN wget http://www.vlfeat.org/download/vlfeat-0.9.20-bin.tar.gz
-RUN tar zxvf vlfeat-0.9.20-bin.tar.gz
-RUN rm vlfeat-0.9.20-bin.tar.gz
-ENV VLFEAT_DIR=/vlfeat-0.9.20
-
-# Install Eigen3
-RUN apt-get install -y libeigen3-dev
-
-# Install HDF5
-RUN apt-get install -y libhdf5-serial-dev --fix-missing
-
-# Install pip
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN python get-pip.py && rm get-pip.py
-RUN pip install --upgrade pip
-
-# Python stack
-COPY ./requirements.txt /root/
-RUN pip install -r /root/requirements.txt
-RUN rm /root/requirements.txt
-
