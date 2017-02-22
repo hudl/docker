@@ -18,9 +18,6 @@ RUN conda install -y pip numpy
 
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
-# Silly workaround 
-# RUN curl https://bootstrap.pypa.io/ez_setup.py -o - | python
-
 # TensorFlow Install
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
