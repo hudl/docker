@@ -7,12 +7,12 @@ ENV CUDA_ROOT /usr/local/cuda/bin
 RUN apt-get update -y && apt-get install git wget vim libgtk2.0-0 -y
 
 # Miniconda/basic packages install
-RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O install_anaconda.sh && \
-    /bin/bash install_anaconda.sh -b -p /opt/conda && \
+RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O install_miniconda.sh && \
+    /bin/bash install_miniconda.sh -b -p /opt/conda && \
     /opt/conda/bin/conda update conda && \
     # Set default python to 3.5
     /opt/conda/bin/conda install python=3.5 && \
-    rm install_anaconda.sh
+    rm install_miniconda.sh
 ENV PATH /opt/conda/bin:$PATH
 RUN conda install -y pip numpy
 
