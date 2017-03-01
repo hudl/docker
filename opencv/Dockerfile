@@ -16,12 +16,7 @@ RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86
     /bin/bash install_miniconda.sh -b -p /opt/conda && \
     rm install_miniconda.sh
 ENV PATH /opt/conda/bin:$PATH
-
-RUN pip install --upgrade pip
-RUN pip install Cython==0.24
-RUN pip install --upgrade --ignore-installed https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
-
-RUN conda install numpy -y
+RUN conda install numpy==1.12.0 -y
 
 WORKDIR /
 RUN git clone https://github.com/Itseez/opencv.git
@@ -39,11 +34,11 @@ RUN cmake -D CMAKE_BUILD_TYPE=Release \
     -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
     -D BUILD_opencv_python3=True \
     -D OPENCV_FORCE_PYTHON_LIBS=True \
-    -D PYTHON3_INCLUDE_DIR=/opt/conda/include/python3.5m \
-    -D PYTHON3_LIBRARY=/opt/conda/lib/libpython3.5m.so \
-    -D PYTHON3_EXECUTABLE=/opt/conda/bin/python3.5 \
-    -D PYTHON3_NUMPY_INCLUDE_DIRS=/opt/conda/pkgs/numpy-1.11.3-py35_0/lib/python3.5/site-packages/numpy/core/include \
-    -D PYTHON3_PACKAGES_PATH=/opt/conda/lib/python3.5/site-packages \
+    -D PYTHON3_INCLUDE_DIR=/opt/conda/include/python3.6m \
+    -D PYTHON3_LIBRARY=/opt/conda/lib/libpython3.6m.so \
+    -D PYTHON3_EXECUTABLE=/opt/conda/bin/python3.6 \
+    -D PYTHON3_NUMPY_INCLUDE_DIRS=/opt/conda/pkgs/numpy-1.12.0-py36_0/lib/python3.6/site-packages/numpy/core/include \
+    -D PYTHON3_PACKAGES_PATH=/opt/conda/lib/python3.6/site-packages \
     -D BUILD_EXAMPLES=False \
     -D INSTALL_PYTHON_EXAMPLES=False \
     -D INSTALL_C_EXAMPLES=False \
@@ -52,8 +47,10 @@ RUN cmake -D CMAKE_BUILD_TYPE=Release \
     -D BUILD_PERF_TESTS=False \
     .
 
-RUN make -j8 && make install && \
+RUN make && make install && \
     ldconfig && \
     cd .. && \
     rm -rf opencv && \
     rm -rf opencv_contrib
+
+RUN ln /dev/null /dev/raw1394
