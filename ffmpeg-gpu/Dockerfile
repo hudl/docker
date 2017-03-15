@@ -1,18 +1,15 @@
 FROM nvidia/cuda:8.0-cudnn5-devel
 MAINTAINER Ryan Versaw <ryan.versaw@hudl.com>
 
-ENV CUDA_ROOT /usr/local/cuda/bin
 RUN apt-get update -y && apt-get install git wget vim libgtk2.0-0 -y
 
-ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-
-RUN apt-get install -y cmake subversion yasm unzip mediainfo ntp ruby autoconf automake build-essential curl pkg-config texi2html zlib1g-dev libvpx-dev
+RUN apt-get install -y cmake subversion yasm unzip mediainfo ntp ruby autoconf automake \
+                       build-essential curl pkg-config texi2html zlib1g-dev libvpx-dev \
+                       libmp3lame-dev libxvidcore-dev libxml2-utils libass-dev libgpac-dev \
+                       libtheora-dev libtool libvorbis-dev bzip2 make gcc libtool nasm \
+                       libx264-dev mercurial libopus-dev libfreetype6-dev
 
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-
-# FFMPEG package deps
-RUN apt-get install -y libmp3lame-dev libxvidcore-dev libxml2-utils libass-dev libgpac-dev libtheora-dev libtool libvorbis-dev
-RUN apt-get install -y bzip2 make gcc libtool nasm libx264-dev mercurial libopus-dev libfreetype6-dev
 
 RUN export LD_LIBRARY_PATH=/usr/local/lib/ && \
     echo /usr/local/lib > /etc/ld.so.conf.d/custom-libs.conf && \
