@@ -64,3 +64,5 @@ RUN curl -L http://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-10.46.ta
     make -j8 && make install && \
     cd .. && \
     rm -rf Image-ExifTool-10.46
+
+ENTRYPOINT ["ffmpeg"]
