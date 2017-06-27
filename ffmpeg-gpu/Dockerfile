@@ -40,14 +40,15 @@ RUN curl -L https://github.com/mstorsjo/fdk-aac/archive/v0.1.5.tar.gz | tar zxf 
     cd .. && \
     rm -rf fdk-aac-0.1.5
 
-RUN git clone https://github.com/FFmpeg/FFmpeg --depth 1 && \
-    cd FFmpeg && \
+RUN curl -L http://ffmpeg.org/releases/ffmpeg-3.3.2.tar.bz2 | tar xjf - && \
+    cd ffmpeg-3.3.2 && \
     ./configure --enable-avfilter --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb \
         --enable-libvpx --enable-libfdk-aac --enable-libmp3lame --enable-libtheora --enable-libvorbis \
         --enable-libx264 --enable-libxvid --enable-gpl --enable-postproc --enable-nonfree --enable-shared \
         --enable-libx265 --enable-libopus --enable-libass --enable-libfreetype --enable-nvenc \
         --enable-cuda --enable-cuvid --extra-cflags=-I/usr/local/cuda/include \
-        --extra-cflags=-I/usr/local/include --extra-ldflags=-L/usr/local/cuda/lib64 && \
+        --extra-cflags=-I/usr/local/include --extra-ldflags=-L/usr/local/cuda/lib64 \
+        --enable-libnpp && \
     make -j8 && make install && \
     ldconfig && \
     cd tools && \
@@ -55,7 +56,7 @@ RUN git clone https://github.com/FFmpeg/FFmpeg --depth 1 && \
     cp qt-faststart /usr/local/bin && \
     ldconfig && \
     cd ../.. && \
-    rm -rf FFmpeg
+    rm -rf ffmpeg-3.3.2
 
 RUN curl -L http://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-10.46.tar.gz | tar zxf - && \
     cd Image-ExifTool-10.46 && \
